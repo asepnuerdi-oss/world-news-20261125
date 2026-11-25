@@ -1,23 +1,26 @@
 #!/usr/bin/env python3
-"""make.fun entry — 'Sum up 25 November's world news in one image'.
+"""Copy the bundled artwork to the entry output location.
 
-Writes the bundled front-page artwork to /output/entry.png.
-Pure standard library, no network, fully deterministic: the output is a
-byte-for-byte copy of the image stored in this repository, so two runs
-always produce identical bytes.
+This script takes the image file ``world-news-2026-11-25.png`` that lives
+next to it and places an identical copy at ``/output/entry.png``. It
+creates ``/output`` first when it is missing, so the copy always lands
+where the entry is expected. Nothing is generated or changed here: the
+output is simply the same file, byte for byte.
 """
+
 import os
 import shutil
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-SOURCE = os.path.join(HERE, "world-news-2026-11-25.png")
-OUTPUT = os.path.join("/output", "entry.png")
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SOURCE = os.path.join(SCRIPT_DIR, "world-news-2026-11-25.png")
+DESTINATION = os.path.join("/output", "entry.png")
 
 
 def main():
-    os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
-    shutil.copyfile(SOURCE, OUTPUT)
-    print("wrote", OUTPUT, os.path.getsize(OUTPUT), "bytes")
+    os.makedirs(os.path.dirname(DESTINATION), exist_ok=True)
+    shutil.copyfile(SOURCE, DESTINATION)
+    size = os.path.getsize(DESTINATION)
+    print(f"wrote {DESTINATION} ({size} bytes)")
 
 
 if __name__ == "__main__":
